@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eye Disease Prediction</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 56px; /* Adjusted for the fixed navbar height */
+            padding-bottom: 50px; /* Added padding to the bottom */
+            margin: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #434040; /* Set text color to white for better readability */
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #040303; /* Set text color to white for better readability */
+        }
+
+        #result {
+            margin-top: 10px;
+            color: #040303;
+        }
+
+        /* Add custom CSS for footer */
+        footer {
+            background-color: #343a40; /* Dark background color for the footer */
+            padding: 5px;
+            text-align: center;
+            position: relative;
+            color: #fff; /* Set text color to white for better readability */
+            margin-top: 1pc; /* Push the footer to the bottom */
+            width: 100%;
+        }
+
+        /* Add padding to the main content */
+        .container {
+            padding-top: 50px;
+            padding-bottom: 50px; /* Adjusted to account for the fixed footer */
+        }
+
+        /* Styling for quotations */
+        .quotation-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .quotation-card {
+            width: 70%;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .quotation-card:hover {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Add animation effect */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animated {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        /* Improved styling for the file input */
+        .custom-file-input::-webkit-file-upload-button {
+            visibility: hidden;
+        }
+
+        .custom-file-input::before {
+            content: 'Select Image';
+            display: inline-block;
+            background: linear-gradient(top, #f9f9f9, #e3e3e3);
+            border: 1px solid #999;
+            border-radius: 3px;
+            padding: 5px 8px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            text-shadow: 1px 1px #fff;
+            font-weight: 700;
+            font-size: 10pt;
+        }
+
+        .custom-file-input:hover::before {
+            border-color: black;
+        }
+
+        .custom-file-input:active::before {
+            background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar with Bootstrap classes -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Eye Disease Prediction</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#upload-form">Prediction Tool</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#footer">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="mt-5">Eye Disease Prediction</h1>
+        
+        <!-- Quotations about why eyes are important -->
+        <div class="quotation-container mt-4">
+            <div class="quotation-card animated">
+                <div class="card-body">
+                    <p>Cataract:
+                        In the early shadows of a cataract, the light of early detection shines brightest. Illuminate the path to clear vision and renewed hope.</p>
+                </div>
+            </div>
+            <div class="quotation-card animated">
+                <div class="card-body">
+                    <p>Diabetic Retinopathy:
+                        In the intricate dance of diabetes and sight, early vigilance is the partner that leads to a graceful and unobstructed performance. Protect your eyes, cherish the gift of early vision awareness</p>
+                </div>
+            </div>
+            <div class="quotation-card animated">
+                <div class="card-body">
+                    <p>Glaucoma:
+                        Silent as the night, yet potent in its grasp. Guard against the subtle thief of sight with the vigilance of early detection. In awareness lies the key to preserving the beauty of the visual world.</p>
+                </div>
+            </div>
+            <div class="quotation-card animated">
+                <div class="card-body">
+                    <p>Normal (Healthy Eyes):
+                        Eyes,the unspoken poets of our world. Nurture their brilliance by embracing the beauty of ordinary miracles, and in early predictions, safeguard the clarity that lies within.</p>
+                </div>
+            </div>
+            <div class="quotation-card animated">
+                <div class="card-body">
+                    <p>Prevention better than Cure</p>
+                </div>
+            </div>
+        </div>
+
+        <form id="upload-form" action="/predict" method="post" enctype="multipart/form-data" class="mt-4">
+            <!-- Improved file input styling -->
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile" name="file" accept="image/*" required>
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Predict</button>
+        </form>
+
+        <div id="result" class="mt-4"></div>
+    </div>
+
+    <!-- Footer with Bootstrap classes -->
+    <footer id="footer">
+        <div class="container">
+            <p>Contact Us: nikki405024@gmail.com,tsrikara@gmail.com</p>
+        </div>
+    </footer>
+
+    <!-- Add Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        // Add JavaScript to animate quotations on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const quotationCards = document.querySelectorAll('.quotation-card');
+            quotationCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('animated');
+                }, index * 300);
+            });
+        });
+
+        // Add JavaScript to handle file input change and update the label text
+        document.getElementById('customFile').addEventListener('change', function () {
+            const fileName = this.files[0].name;
+            const label = document.querySelector('.custom-file-label');
+            label.textContent = fileName;
+        });
+
+        // Add JavaScript to handle form submission and display the result
+        document.getElementById('upload-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            document.getElementById('result').innerText = 'Predicted Class: ' + result.result;
+        });
+    </script>
+</body>
+</html>
